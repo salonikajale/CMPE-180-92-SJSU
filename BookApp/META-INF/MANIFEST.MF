@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Created-By: 1.8.0_131 (Oracle Corporation)
+
+Name: BookNode.cpp
+SHA-256-Digest: KJT6HquN6fSAWRmXX+867RtJiaUHUEyJtORS4PaYbes=
+
+Name: codecheck.log
+SHA-256-Digest: 3OG1mjolw1BI83M83zUmHqEfWQFd1Do1ZvJojSBqMes=
+
+Name: Book.h
+SHA-256-Digest: XvXn0J/L0dAPGxFxGYqo3bUY1UpsVHrDDo7VwZA6lMg=
+
+Name: report.html
+SHA-256-Digest: +NFWUS8d2t0QCyoCO8oOaOvm0RMJbEi94HP1Us80xLI=
+
+Name: BookList.h
+SHA-256-Digest: 5j2BrcA/Gxy9aUs/8ddUkAKayxaKbgjbDF1uMoFuVNI=
+
+Name: BookListsApp.cpp
+SHA-256-Digest: 4sZrGQTPwEWiPNxciyFHXbkGQiK+f7sFAAkPKHXXQcQ=
+
+Name: BookNode.h
+SHA-256-Digest: G5BU6N2tQig11XdhcngtXf9Lm9P5njXytOjSJ8kYfxE=
+
+Name: codecheck.out
+SHA-256-Digest: 47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+
+Name: BookList.cpp
+SHA-256-Digest: kbQM557O9BVQO9Qn/+0igi0cbpmceDBj0Uj/PiZ64lg=
+
+Name: Book.cpp
+SHA-256-Digest: iEvvwt32qMGyg/naace1p37vZa8cPwv7CApUV9AElgw=
+

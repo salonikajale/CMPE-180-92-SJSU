@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Created-By: 1.8.0_131 (Oracle Corporation)
+
+Name: codecheck.log
+SHA-256-Digest: /Wi6P3lBUF0YK5CZmKOlsX/oWk1F9C1GPPbgHSNrdq8=
+
+Name: report.html
+SHA-256-Digest: H97jCurbPUWcMuNkPsk1Xc4U9vpWknlRR593YrJgMk0=
+
+Name: codecheck.out
+SHA-256-Digest: 47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+
+Name: spirals.cpp
+SHA-256-Digest: Zj2Ey7gtCPhxqmYsiH6h9QitsSKcw8urrAzC1Atc5iw=
+

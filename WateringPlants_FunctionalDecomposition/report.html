@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="Version" content="0.3"/>
+<meta name="Submission" content="/tmp/codecheck/17090719142087571735263108122"/>
+<meta name="Problem" content="1709040436ejaoqqp5383m90994v5chyltu"/>
+<meta name="Level" content="1"/>
+<meta name="Time" content="2017-09-07T19:14:03Z"/>
+<meta name="ID" content="WateringPlans"/>
+<meta name="User" content="17082603305jut7i08lch05x8ijzmanzlp4"/>
+<meta name="Elapsed" content="1231 ms"/>
+<style type="text/css">
+.header {font-weight: bold; font-size: 1.2em; }
+.item {font-weight: bold;}
+.pass {color: green;}
+.fail {color: red;}
+table.file td {padding-right: 1em; background: #FFF; }
+.linenumber {color: gray;}
+.footnote {font-size: 0.7em;}
+table {font-size: 0.9em;}
+td, th { background: #EEE; margin: 0.5em; padding: 0.25em;}
+table.output td {vertical-align: top;}
+div.footnotes { border-top: 1px solid gray; padding-top: 0.5em; }
+</style>
+<title>Report</title>
+</head>
+<body>
+<p class="header run">Testing WateringPlans.cpp</p>
+<pre class="output">
+==========================
+ Plan Near with 5 plants
+==========================
+
+Where      Cum. steps  Water amt.  Cum. step-units
+---------  ----------  ----------  ---------------
+Plant  1        1          3               3
+Plant  2        2          2               5
+Plant  3        3          1               6
+FAUCET          6          0               6
+Plant  4       10          3              18
+Plant  5       11          2              20
+FAUCET         16          1              25
+
+Plan Near: Total steps = 16, total step-units = 25
+
+==========================
+ Plan Far with 5 plants
+==========================
+
+Where      Cum. steps  Water amt.  Cum. step-units
+---------  ----------  ----------  ---------------
+Plant  5        5          3              15
+Plant  4        6          2              17
+Plant  3        7          1              18
+FAUCET         10          0              18
+Plant  2       12          3              24
+Plant  1       13          2              26
+FAUCET         14          1              27
+
+Plan Far: Total steps = 14, total step-units = 27
+
+*** With 5 plants, Plan Near is better with 2 fewer step-units.
+
+==========================
+ Plan Near with 6 plants
+==========================
+
+Where      Cum. steps  Water amt.  Cum. step-units
+---------  ----------  ----------  ---------------
+Plant  1        1          3               3
+Plant  2        2          2               5
+Plant  3        3          1               6
+FAUCET          6          0               6
+Plant  4       10          3              18
+Plant  5       11          2              20
+Plant  6       12          1              21
+FAUCET         18          0              21
+
+Plan Near: Total steps = 18, total step-units = 21
+
+==========================
+ Plan Far with 6 plants
+==========================
+
+Where      Cum. steps  Water amt.  Cum. step-units
+---------  ----------  ----------  ---------------
+Plant  6        6          3              18
+Plant  5        7          2              20
+Plant  4        8          1              21
+FAUCET         12          0              21
+Plant  3       15          3              30
+Plant  2       16          2              32
+Plant  1       17          1              33
+FAUCET         18          0              33
+
+Plan Far: Total steps = 18, total step-units = 33
+
+*** With 6 plants, Plan Near is better with 12 fewer step-units.
+
+==========================
+ Plan Near with 7 plants
+==========================
+
+Where      Cum. steps  Water amt.  Cum. step-units
+---------  ----------  ----------  ---------------
+Plant  1        1          3               3
+Plant  2        2          2               5
+Plant  3        3          1               6
+FAUCET          6          0               6
+Plant  4       10          3              18
+Plant  5       11          2              20
+Plant  6       12          1              21
+FAUCET         18          0              21
+Plant  7       25          3              42
+FAUCET         32          2              56
+
+Plan Near: Total steps = 32, total step-units = 56
+
+==========================
+ Plan Far with 7 plants
+==========================
+
+Where      Cum. steps  Water amt.  Cum. step-units
+---------  ----------  ----------  ---------------
+Plant  7        7          3              21
+Plant  6        8          2              23
+Plant  5        9          1              24
+FAUCET         14          0              24
+Plant  4       18          3              36
+Plant  3       19          2              38
+Plant  2       20          1              39
+FAUCET         22          0              39
+Plant  1       23          3              42
+FAUCET         24          2              44
+
+Plan Far: Total steps = 24, total step-units = 44
+
+*** With 7 plants, Plan Far is better with 12 fewer step-units.
+</pre>
+<span class="pass">pass </span><p class="header studentFiles">Student files</p>
+<p class="caption">WateringPlans.cpp:</p>
+<pre>/**
+ * Assignment 2. Watering Plans
+ *
+ * FUNCTIONAL DECOMPOSITION
+ *
+ * CMPE 180-92 Data Structures and Algorithms in C++
+ * Fall 2017
+ *
+ * Author: Saloni Kajale
+ *         Computer Engineering
+ *         San Jose State University
+ */
+
+//Include Directives
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;iomanip&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+//Constant Declarations
+const int UNITS_PER_CAN = 3;
+const string INPUT_FILE_NAME = "counts.txt";
+
+
+//Function Declarations
+void openFile(string filename, ifstream&amp; file);
+int getPlantCount(ifstream&amp; inputFile);
+void printHeaderText(bool flag,int plant_count);
+void initializeVariables(int&amp; plant_number, int&amp; steps, int&amp; cum_steps, int&amp; cum_step_units_near, int plant_count, int unwatered_count, int water_amount, bool flag);
+void printPlant(int plant_number, int cum_steps, int water_amount, int cum_step_units_near);
+void printFaucet(int plant_number, int cum_steps, int water_amount, int cum_step_units_near);
+void printSteps(int cum_steps, int cum_step_units_near, bool flag);
+bool isTripDone(int water_amount, int unwatered_count);
+void walkAwayFromFaucet(int&amp; plant_number, int&amp; cum_steps, int&amp; cum_step_units_near, int water_amount);
+void walkTowardsFaucet(int&amp; plant_number, int&amp; cum_steps, int&amp; cum_step_units_far, int water_amount);
+void walkBackToFaucet(int&amp; steps, int plant_number, int&amp; cum_steps, int&amp; cum_step_units_near, int water_amount);
+void wateringNearPlants(int plant_count,int UNITS_PER_CAN,int&amp; cum_step_units_near);
+void wateringFarPlants(int plant_count,int UNITS_PER_CAN,int&amp; cum_step_units_far);
+void getBetterPlan(int plant_count,int cum_step_units_near,int cum_step_units_far);
+void wateringPlants(int plant_count, int UNITS_PER_CAN);
+
+
+// Main Function
+int main()
+{
+ifstream inputFile;
+int plant_count;                                       // count of plants
+openFile(INPUT_FILE_NAME, inputFile);                 // Function call to open a file
+if (inputFile.is_open()) 
+{
+	do
+	{
+		plant_count = getPlantCount(inputFile);      // Function call to get the PlantCount
+		if (plant_count &lt;= 0) return 0;
+		wateringPlants(plant_count, UNITS_PER_CAN); // Function call for wateringPlants()
+		
+	}while (plant_count &gt; 0);
+	return 0;
+}
+else
+{
+	cout &lt;&lt; "Failed to open " &lt;&lt; INPUT_FILE_NAME &lt;&lt; endl;
+}
+}
+
+//Function to open a file
+void openFile(string filename, ifstream&amp; file)
+{
+file.open(filename.c_str());
+}
+
+//Function to get the number of plants given in the input file
+//The function returns the plant_count
+int getPlantCount(ifstream&amp; inputFile)
+{
+int plant_count;
+inputFile &gt;&gt; plant_count;
+return plant_count;
+}
+
+//Function to print the HeaderText()
+//Parameters required flag and plant_count
+void printHeaderText(bool flag,int plant_count)
+{
+cout &lt;&lt; endl;
+string direction;
+if(flag)
+	direction = "Near";
+else
+	direction = "Far";
+cout &lt;&lt; "==========================" &lt;&lt; endl;
+cout &lt;&lt; " Plan " &lt;&lt; direction &lt;&lt; " with " &lt;&lt; plant_count &lt;&lt; " plants" &lt;&lt; endl;
+cout &lt;&lt; "==========================" &lt;&lt; endl;
+cout &lt;&lt; endl;
+cout &lt;&lt; "Where      Cum. steps  Water amt.  Cum. step-units" &lt;&lt; endl;
+cout &lt;&lt; "---------  ----------  ----------  ---------------" &lt;&lt; endl;
+}
+
+
+//Function for initializing variables
+//Value of flag is used to check if the condition for Near or Far is to be considered.
+void initializeVariables(int&amp; plant_number, int&amp; steps, int&amp; cum_steps, int&amp; cum_step_units_near, int plant_count, int unwatered_count, int water_amount, bool flag)
+{
+if(flag) // true indicates initialize for Near
+	plant_number = plant_count - unwatered_count + 1;
+else
+	plant_number = unwatered_count;
+	steps = plant_number;
+	cum_steps += steps;
+	cum_step_units_near += steps*water_amount;
+}
+
+
+//Function for printing plants
+//Parameters include plant_number, cum_steps, water_amount, cum_step_units_near
+void printPlant(int plant_number, int cum_steps, int water_amount, int cum_step_units_near)
+{
+cout &lt;&lt; "Plant " &lt;&lt; setw(2) &lt;&lt; plant_number
+				 &lt;&lt; setw(9)  &lt;&lt; cum_steps
+				 &lt;&lt; setw(11) &lt;&lt; water_amount
+				 &lt;&lt; setw(16) &lt;&lt; cum_step_units_near &lt;&lt; endl;
+}
+
+
+//Function to printFaucet
+//Parameters include plant_number, cum_steps, water_amount, cum_step_units_near
+void printFaucet(int plant_number, int cum_steps, int water_amount, int cum_step_units_near)
+{
+cout &lt;&lt; "FAUCET "
+			 &lt;&lt; setw(10) &lt;&lt; cum_steps
+			 &lt;&lt; setw(11) &lt;&lt; water_amount
+			 &lt;&lt; setw(16) &lt;&lt; cum_step_units_near &lt;&lt; endl;
+}
+
+//Function to printSteps()
+//Parameters include cum_steps, cum_step_units_near,flag
+void printSteps(int cum_steps, int cum_step_units_near, bool flag)
+{
+string direction;
+if(flag)
+	direction = "Near";
+else
+	direction = "Far";
+cout &lt;&lt; endl;
+cout &lt;&lt; "Plan " &lt;&lt; direction &lt;&lt; ": Total steps = " &lt;&lt; cum_steps
+&lt;&lt; ", total step-units = " &lt;&lt; cum_step_units_near &lt;&lt; endl;
+}
+
+//Function to check if isTripDone()
+//Parameters required include water_amount, unwatered_count
+bool isTripDone(int water_amount, int unwatered_count)
+{
+bool trip_done = (water_amount == 0) || (unwatered_count == 0);
+return trip_done;
+}
+
+//Function to walkAwayFromFaucet()
+//Parameters required include plant_number, cum_steps, cum_step_units-near, water_amount
+void walkAwayFromFaucet(int&amp; plant_number, int&amp; cum_steps, int&amp; cum_step_units_near, int water_amount)
+{
+plant_number++;
+cum_steps++;
+cum_step_units_near += water_amount;
+}
+
+//Function to walkTowardsFaucet()
+//Parameters required include plant_number,  cum_steps, cum_step_units_far,water_amount
+void walkTowardsFaucet(int&amp; plant_number, int&amp; cum_steps, int&amp; cum_step_units_far, int water_amount)
+{
+plant_number--;
+cum_steps++;
+cum_step_units_far += water_amount;
+}
+
+//Function to WalkBackToFaucet()
+//Parameters required include steps, plant_number, cum_steps, cum_steps_units_near, water_amount
+void walkBackToFaucet(int&amp; steps, int plant_number, int&amp; cum_steps, int&amp; cum_step_units_near, int water_amount)
+{
+steps = plant_number;
+cum_steps += steps;
+cum_step_units_near += steps*water_amount;
+}
+
+
+//Function for wateringNearPLants() 
+//This function in turn calls printHeaderText(), initializeVariables(), printPlant(), isTripDone(), walkAwayFromFaucet(), 
+//walkBackToFaucet(), printFaucet(), printSteps()
+void wateringNearPlants(int plant_count,int UNITS_PER_CAN,int&amp; cum_step_units_near)
+{
+int plant_number;           // plant #1, #2, #3, ...
+int water_amount;           // amount of water in the watering can
+int steps;                  // number of steps taken
+int cum_steps;              // cumulative number of steps taken for a plan
+bool trip_done;             // true if a trip is done
+
+printHeaderText(true, plant_count);
+
+int unwatered_count = plant_count;
+cum_steps = 0;
+cum_step_units_near = 0;
+while (unwatered_count &gt; 0)
+	{
+		// Fill the can.
+		water_amount = UNITS_PER_CAN;
+
+		// Walk to the nearest unwatered plant with a full can.
+		initializeVariables(plant_number, steps, cum_steps, cum_step_units_near, plant_count, unwatered_count, water_amount, true);
+
+		// Water plants while walking away from the faucet.
+		// Loop once per plant until either the can is empty
+		// or all the plants have been watered.
+		// During each loop, water one plant.
+		do
+		{
+			
+			printPlant(plant_number, cum_steps, water_amount, cum_step_units_near);
+			water_amount--;
+			unwatered_count--;
+			
+			trip_done = isTripDone(water_amount, unwatered_count);
+			if (!trip_done)
+			{
+				// Walk away from the faucet to the next unwatered plant.
+				walkAwayFromFaucet(plant_number, cum_steps, cum_step_units_near, water_amount);
+			}
+		} while (!trip_done);
+
+		// Walk back to the faucet with an empty or partially filled can.
+		walkBackToFaucet(steps, plant_number, cum_steps, cum_step_units_near, water_amount);
+
+		printFaucet(plant_number, cum_steps, water_amount, cum_step_units_near);
+
+	}
+	printSteps(cum_steps, cum_step_units_near, true);
+}
+
+//Function for WateringFarPlants()
+//This function in turn calls printHeaderText(), initializeVariables(), printPlant(), isTripDone(), walkTowardsFaucet(), 
+//walkBackToFaucet(), printFaucet(), printSteps()
+
+void wateringFarPlants(int plant_count,int UNITS_PER_CAN,int&amp; cum_step_units_far)
+{
+int plant_number;           // plant #1, #2, #3, ...
+int water_amount;           // amount of water in the watering can
+int steps;                  // number of steps taken
+int cum_steps;              // cumulative number of steps taken for a plan
+bool trip_done;             // true if a trip is done
+printHeaderText(false, plant_count);
+int unwatered_count = plant_count;
+cum_steps = 0;
+cum_step_units_far = 0;
+while (unwatered_count &gt; 0)
+	{
+		// Fill the can.
+		water_amount = UNITS_PER_CAN;
+
+		// Walk to the nearest unwatered plant with a full can.
+		initializeVariables(plant_number, steps, cum_steps, cum_step_units_far, plant_count, unwatered_count, water_amount, false);
+
+		// Water plants while walking away from the faucet.
+		// Loop once per plant until either the can is empty
+		// or all the plants have been watered.
+		// During each loop, water one plant.
+		do
+		{
+			
+			printPlant(plant_number, cum_steps, water_amount, cum_step_units_far);
+			water_amount--;
+			unwatered_count--;
+			
+			trip_done = isTripDone(water_amount, unwatered_count);
+			if (!trip_done)
+			{
+				// Walk away from the faucet to the next unwatered plant.
+				walkTowardsFaucet(plant_number, cum_steps, cum_step_units_far, water_amount);
+			}
+		} while (!trip_done);
+
+		// Walk back to the faucet with an empty or partially filled can.
+		walkBackToFaucet(steps, plant_number, cum_steps, cum_step_units_far, water_amount);
+		
+		printFaucet(plant_number, cum_steps, water_amount, cum_step_units_far);
+
+	}
+	printSteps(cum_steps, cum_step_units_far, false);
+}
+
+
+//Function getBetterPlan() is used to check which plan is better
+//Arguments required plant_count, cum_step_units_near, cum_step_units_far
+void getBetterPlan(int plant_count,int cum_step_units_near,int cum_step_units_far)
+{
+cout &lt;&lt; endl;
+cout &lt;&lt; "*** With " &lt;&lt; plant_count &lt;&lt; " plants, ";
+if (cum_step_units_far == cum_step_units_near)
+{
+	cout &lt;&lt; "both plans are equal." &lt;&lt; endl;
+}
+else if (cum_step_units_far &lt; cum_step_units_near)
+{
+	cout &lt;&lt; "Plan Far is better with "
+		 &lt;&lt; cum_step_units_near - cum_step_units_far
+		 &lt;&lt; " fewer step-units." &lt;&lt; endl;
+}
+else
+{
+	cout &lt;&lt; "Plan Near is better with "
+		 &lt;&lt; cum_step_units_far - cum_step_units_near
+		 &lt;&lt; " fewer step-units." &lt;&lt; endl;
+}
+}
+
+//Function WateringPlants() is used for calling wateringNearPlants(), wateringFarPlants() and getBetterPlan()
+//Parameters passed to the function include plant_count and UNITS_PER_CAN
+void wateringPlants(int plant_count, int UNITS_PER_CAN)
+{
+int cum_step_units_far;
+int cum_step_units_near;
+wateringNearPlants(plant_count,UNITS_PER_CAN,cum_step_units_near);
+wateringFarPlants(plant_count,UNITS_PER_CAN,cum_step_units_far);
+getBetterPlan(plant_count,cum_step_units_near,cum_step_units_far);
+}
+
+</pre>
+<p class="header providedFiles">Provided files</p>
+<p class="caption">counts.txt:</p>
+<pre>5 6 7 0
+</pre>
+<p class="header score">Score</p>
+<p class="score">1/1</p>
+<p class="download"><a href="WateringPlans.signed.zip">Download</a></p>
+<div class="footnotes"><div class="footnote">2017-09-07T19:14:03Z</div>
+</div>
+</body></html>

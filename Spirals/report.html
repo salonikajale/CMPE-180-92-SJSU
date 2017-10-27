@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="Version" content="0.3"/>
+<meta name="Submission" content="/tmp/codecheck/17091419146486941247951265718"/>
+<meta name="Problem" content="17011724027ahzerajkrgzg2kd682p363d4"/>
+<meta name="Level" content="1"/>
+<meta name="Time" content="2017-09-14T19:14:06Z"/>
+<meta name="ID" content="spirals"/>
+<meta name="User" content="17091305364ra7z1tme6g8qh79ewpl2djem"/>
+<meta name="Elapsed" content="979 ms"/>
+<style type="text/css">
+.header {font-weight: bold; font-size: 1.2em; }
+.item {font-weight: bold;}
+.pass {color: green;}
+.fail {color: red;}
+table.file td {padding-right: 1em; background: #FFF; }
+.linenumber {color: gray;}
+.footnote {font-size: 0.7em;}
+table {font-size: 0.9em;}
+td, th { background: #EEE; margin: 0.5em; padding: 0.25em;}
+table.output td {vertical-align: top;}
+div.footnotes { border-top: 1px solid gray; padding-top: 0.5em; }
+</style>
+<title>Report</title>
+</head>
+<body>
+<p class="header run">Testing spirals.cpp</p>
+<pre class="output">Spiral of size 1 starting at 1
+
+    1
+
+Spiral of size 5 starting at 1
+
+   17   16   15   14   13
+   18    5    4    3   12
+   19    6    1    2   11
+   20    7    8    9   10
+   21   22   23   24   25
+
+Spiral of size 9 starting at 11
+
+   75   74   73   72   71   70   69   68   67
+   76   47   46   45   44   43   42   41   66
+   77   48   27   26   25   24   23   40   65
+   78   49   28   15   14   13   22   39   64
+   79   50   29   16   11   12   21   38   63
+   80   51   30   17   18   19   20   37   62
+   81   52   31   32   33   34   35   36   61
+   82   53   54   55   56   57   58   59   60
+   83   84   85   86   87   88   89   90   91
+
+Spiral of size 12 starting at 13
+***** Error: Size 12 must be odd. 
+
+Spiral of size 15 starting at 17
+
+  213  212  211  210  209  208  207  206  205  204  203  202  201  200  199
+  214  161  160  159  158  157  156  155  154  153  152  151  150  149  198
+  215  162  117  116  115  114  113  112  111  110  109  108  107  148  197
+  216  163  118   81   80   79   78   77   76   75   74   73  106  147  196
+  217  164  119   82   53   52   51   50   49   48   47   72  105  146  195
+  218  165  120   83   54   33   32   31   30   29   46   71  104  145  194
+  219  166  121   84   55   34   21   20   19   28   45   70  103  144  193
+  220  167  122   85   56   35   22   17   18   27   44   69  102  143  192
+  221  168  123   86   57   36   23   24   25   26   43   68  101  142  191
+  222  169  124   87   58   37   38   39   40   41   42   67  100  141  190
+  223  170  125   88   59   60   61   62   63   64   65   66   99  140  189
+  224  171  126   89   90   91   92   93   94   95   96   97   98  139  188
+  225  172  127  128  129  130  131  132  133  134  135  136  137  138  187
+  226  173  174  175  176  177  178  179  180  181  182  183  184  185  186
+  227  228  229  230  231  232  233  234  235  236  237  238  239  240  241
+
+</pre>
+<span class="pass">pass </span><p class="header studentFiles">Student files</p>
+<p class="caption">spirals.cpp:</p>
+<pre>//Header files
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+const int MAX_SIZE  = 101;  // maximum size of the square matrix
+const int MAX_START = 50;  // maximum starting number
+
+
+//Function Declarations
+void make_spiral(int spiral[][MAX_SIZE], string&amp; direction, int&amp; col_index, int&amp; row_index, int&amp; move_by, int&amp; number, int&amp; places_filled);
+void do_spiral(const int n, const int start);
+void print_spiral(int spiral[][MAX_SIZE], int n);
+
+//Main function
+int main()
+{
+	do_spiral(1, 1);
+	do_spiral(5, 1);
+	do_spiral(9, 11);
+	do_spiral(12, 13);
+	do_spiral(15, 17); 
+}
+
+//Function to make spiral
+//Parameters passed include the spiral size , direction, col index, row index, move_by, number and places filled.
+void make_spiral(int spiral[][MAX_SIZE], string&amp; direction, int&amp; col_index, int&amp; row_index, int&amp; move_by, int&amp; number, int&amp; places_filled)
+{
+	if(direction == "Center")
+			{
+				spiral[row_index][col_index] = number++;
+				direction = "Right";
+				row_index++;
+				places_filled++;
+			}
+			else if(direction == "Right")
+			{
+				
+				col_index++;
+				row_index--;
+				for(int i = 0; i &lt; move_by; i++)
+				{
+					spiral[row_index][col_index] = number++;
+					col_index++;
+					places_filled++;
+				}
+				direction = "Up";
+			}
+			else if(direction == "Up")
+			{
+
+				row_index--;
+				col_index--;
+				for(int i = 0; i &lt; move_by; i++)
+				{
+					spiral[row_index][col_index] = number++;
+					row_index--;
+					places_filled++;
+				}
+				direction = "Left";
+			}
+			else if(direction == "Left")
+			{
+
+				row_index++;
+				col_index--;
+				move_by++;
+				for(int i = 0; i &lt; move_by; i++)
+				{
+					spiral[row_index][col_index] = number++;
+					col_index--;
+					places_filled++;
+				}
+				direction = "Down";
+			}
+			else if(direction == "Down")
+			{
+
+				row_index++;
+				col_index++;
+				for(int i = 0; i &lt; move_by; i++)
+				{
+					spiral[row_index][col_index] = number++;
+					row_index++;
+					places_filled++;
+				}
+				move_by++;
+				direction = "Right";
+			}
+}
+
+//Function to print spiral
+void print_spiral(int spiral[][MAX_SIZE], int n)
+{
+	cout &lt;&lt; "\n";
+	for(int i = 0; i &lt; n; i++)
+	{
+		for(int j = 0; j &lt; n; j++)
+		{
+			cout &lt;&lt; setw(5) &lt;&lt; spiral[i][j];
+		}
+		cout &lt;&lt; "\n";
+	}
+	cout &lt;&lt; "\n";
+}
+
+//Function to check the spiral size 
+//Parameters passed include the size and start value
+//Function in turn calls make_spiral() and print_spiral()
+void do_spiral(const int n, const int start)
+{
+	cout &lt;&lt; "Spiral of size " &lt;&lt; n &lt;&lt; " starting at " &lt;&lt; start &lt;&lt; "\n";
+	if( n % 2 == 0)
+		cout &lt;&lt; "***** Error: Size " &lt;&lt; n &lt;&lt; " must be odd. \n\n";
+	
+	else if(start &gt; MAX_START)
+		cout&lt;&lt; "***** Error: Size should be &gt; 0 and less than"&lt;&lt;MAX_START&lt;&lt;"\n";
+	else
+	{
+		int move_by = 1;					//number of places to move which is initially set to one
+		string direction = "Center";		//Initial direction is set to the center of the matrix
+		int row_index = (n/2);				//Initial row index set to n/2
+		int col_index = (n/2);			    //Initial col index set to n/2
+		int spiral[MAX_SIZE][MAX_SIZE];		//Create spiral of max size
+		int number = start;					//Set number to the start position
+		int places_filled = 0;				//Initial number of places filled is zero
+		while(places_filled &lt; n*n)			
+		{
+			make_spiral(spiral,direction,col_index,row_index,move_by,number,places_filled); //Function call to make_spiral()
+		}
+		
+		print_spiral(spiral,n);             //Function call to print_spiral()
+		
+	}
+	
+}
+</pre>
+<p class="header score">Score</p>
+<p class="score">1/1</p>
+<p class="download"><a href="spirals.signed.zip">Download</a></p>
+<div class="footnotes"><div class="footnote">2017-09-14T19:14:06Z</div>
+</div>
+</body></html>

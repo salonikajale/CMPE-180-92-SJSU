@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="Version" content="0.3"/>
+<meta name="Submission" content="/tmp/codecheck/17091403548648324913708754585"/>
+<meta name="Problem" content="17011623552sefot95xmzaj71sxktly25i9"/>
+<meta name="Level" content="1"/>
+<meta name="Time" content="2017-09-14T03:54:19Z"/>
+<meta name="ID" content="primes"/>
+<meta name="User" content="17091305364ra7z1tme6g8qh79ewpl2djem"/>
+<meta name="Elapsed" content="1323 ms"/>
+<style type="text/css">
+.header {font-weight: bold; font-size: 1.2em; }
+.item {font-weight: bold;}
+.pass {color: green;}
+.fail {color: red;}
+table.file td {padding-right: 1em; background: #FFF; }
+.linenumber {color: gray;}
+.footnote {font-size: 0.7em;}
+table {font-size: 0.9em;}
+td, th { background: #EEE; margin: 0.5em; padding: 0.25em;}
+table.output td {vertical-align: top;}
+div.footnotes { border-top: 1px solid gray; padding-top: 0.5em; }
+</style>
+<title>Report</title>
+</head>
+<body>
+<p class="header run">Testing primes.cpp</p>
+<pre class="output">2   3   5   7  11  13  17  19  23  29  31  37  41  43  47  53  59  61  67  71   
+73  79  83  89  97 101 103 107 109 113 127 131 137 139 149 151 157 163 167 173   
+179 181 191 193 197 199 211 223 227 229 233 239 241 251 257 263 269 271 277 281   
+283 293 307 311 313 317 331 337 347 349 353 359 367 373 379 383 389 397 401 409   
+419 421 431 433 439 443 449 457 461 463 467 479 487 491 499 503 509 521 523 541   
+547 557 563 569 571 577 587 593 599 601 607 613 617 619 631 641 643 647 653 659   
+661 673 677 683 691 701 709 719 727 733 739 743 751 757 761 769 773 787 797 809   
+811 821 823 827 829 839 853 857 859 863 877 881 883 887 907 911 919 929 937 941   
+947 953 967 971 977 983 991 997   
+
+ Done!</pre>
+<span class="pass">pass </span><p class="header studentFiles">Student files</p>
+<p class="caption">primes.cpp:</p>
+<pre>#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+const int MAX_NUMBER = 1000;  // maximum possible prime number
+const int ROW_SIZE   = 20;    // row size for printing
+
+
+//FUNCTION DECLARATIONS
+void print_primes(bool numbers[]);  			// Function to print prime numbers
+void compute_primes(bool numbers[], int n);	    //Function to compute prime numbers 
+
+
+void compute_primes(bool numbers[], int n)
+{
+    // index of array = Number
+    for(int i = 2; i * i &lt; n; i++)
+    {
+        // if flag of number is 1 then setting its multiples as 0
+        if(numbers[i] == 1)
+        {
+            // Loop to set all multiples of Number to 0
+            for(int j = i*i; j &lt; n; j = j + i)
+                numbers[j] = 0;
+        }
+    }
+    print_primes(numbers);
+}
+
+
+void print_primes(bool numbers[])
+{
+    int counter = 0;
+     for(int i = 2; i &lt; MAX_NUMBER; i++)
+     {
+        // Printing only those numbers whose flag remains 1 
+        if(numbers[i] == 1)
+        {
+            if(counter == ROW_SIZE)
+            {
+                cout &lt;&lt; "\n";
+                counter = 0;
+            }
+            cout &lt;&lt; i &lt;&lt;" "&lt;&lt;setw(3);
+            counter ++;
+        }
+     }
+     cout &lt;&lt; "\n";
+     cout &lt;&lt; "\n";
+     cout &lt;&lt; " Done!";
+}
+
+int main()
+{
+    bool numbers[MAX_NUMBER]; 
+    // Initializing array with setting flags = true for all indices
+    for(int i = 2; i &lt; MAX_NUMBER; i++)
+    {
+        numbers[i]=true;
+    }
+    compute_primes(numbers,MAX_NUMBER);
+}
+</pre>
+<p class="header score">Score</p>
+<p class="score">1/1</p>
+<p class="download"><a href="primes.signed.zip">Download</a></p>
+<div class="footnotes"><div class="footnote">2017-09-14T03:54:19Z</div>
+</div>
+</body></html>
